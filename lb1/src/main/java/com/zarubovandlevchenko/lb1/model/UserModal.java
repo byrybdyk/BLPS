@@ -1,13 +1,18 @@
 package com.zarubovandlevchenko.lb1.model;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Table(name="user")
-
+@Table(name = "user")
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserModal {
@@ -33,4 +38,5 @@ public class UserModal {
 
     @Column(unique = true)
     private String passwordNumber;
+
 }
