@@ -1,11 +1,18 @@
 package com.zarubovandlevchenko.lb1.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "Card")
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Card {
 
     @Id
