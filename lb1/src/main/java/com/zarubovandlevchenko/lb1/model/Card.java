@@ -2,17 +2,19 @@ package com.zarubovandlevchenko.lb1.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Card")
+@Table(name = "user_card") // Измененное имя таблицы
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class Card {
 
     @Id
@@ -32,11 +34,11 @@ public class Card {
     @Column(name = "notify", nullable = false)
     private Boolean notify = false;
 
-    @Column(name = "limit")
-    private BigDecimal limit;
+    @Column(name = "limitcash")
+    private Double limit;
 
     @Column(name = "balance", nullable = false)
-    private BigDecimal balance = BigDecimal.ZERO;
+    private Double balance = (double) 0;
 
     @Column(name = "is_freeze", nullable = false)
     private Boolean isFreeze = false;
@@ -50,5 +52,4 @@ public class Card {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserModal user;
-
 }

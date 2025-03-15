@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class CardService {
     private final CardRepository cardRepository;
-    public void setLimit(Long cardId, BigDecimal limit) {
+    public void setLimit(Long cardId, Double limit) {
         Card card = cardRepository.findById(cardId).orElseThrow(() -> new RuntimeException("Card not found"));
         if (!validateLimit(limit)) {
             throw new RuntimeException("Limit must be greater than 0");
@@ -21,8 +21,8 @@ public class CardService {
         cardRepository.save(card);
     }
 
-    private Boolean validateLimit(BigDecimal limit) {
-        return limit.compareTo(BigDecimal.ZERO) > 0;
+    private Boolean validateLimit(Double limit) {
+        return limit >= 0;
     }
 
     public void setFreeze(Long cardId, Boolean isFreeze) {

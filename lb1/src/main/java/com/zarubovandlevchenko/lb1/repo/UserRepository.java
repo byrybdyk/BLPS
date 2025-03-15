@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserModal, Long> {
 
+    UserModal findByLoginOrPhoneNumber(String login, String login1);
 }

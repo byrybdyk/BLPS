@@ -17,7 +17,7 @@ public class CardController {
     }
 
     @PostMapping("/setLimit")
-    public ResponseEntity<Void> setLimit(@RequestBody Long cardId, @RequestBody BigDecimal limit) {
+    public ResponseEntity<Void> setLimit(@RequestBody Long cardId, @RequestBody Double limit) {
         cardService.setLimit(cardId, limit);
         return ResponseEntity.ok().build();
     }
