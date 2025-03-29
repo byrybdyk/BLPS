@@ -17,8 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AuthService {
     private final CardRepository cardRepository;
     private final UserRepository userRepository;
+    private final OtpStorageService otpStorageService;
 
-    private final Map<String, String> otpStorage = new ConcurrentHashMap<>();
 
     public ResponseEntity<?> authenticate(SignInRequest request) {
         if (request.getCard_number() != null) {
@@ -34,9 +34,7 @@ public class AuthService {
             return ResponseEntity.badRequest().body("Карта не найдена");
         }
 
-        String otp = generateOtp();
-        otpStorage.put(cardNumber, otp);
-        sendOtp(card.getUser().getPhoneNumber(), otp);
+        otpStorageService.sendOtp(cardNumber);
 
         return ResponseEntity.ok("OTP отправлен");
     }
@@ -51,20 +49,24 @@ public class AuthService {
     }
 
     public ResponseEntity<?> verifyOtp(String cardNumber, String otp) {
-        if (!otpStorage.containsKey(cardNumber) || !otpStorage.get(cardNumber).equals(otp)) {
+        Map<String, String> otps = otpStorageService.getAllOtps();
+        if (!otps.containsKey(cardNumber) || !otps.get(cardNumber).equals(otp)) {
             return ResponseEntity.badRequest().body("Неверный OTP");
         }
 
-        otpStorage.remove(cardNumber);
+        otpStorageService.removeOtp(cardNumber);
         Card card = cardRepository.findByCardNumber(cardNumber);
         return ResponseEntity.ok(Map.of("message", "Вход успешный"));
     }
 
-    private String generateOtp() {
-        return "12345";
+    public ResponseEntity<?> sendNewOtp(String cardNumber) {
+        System.out.println(otpStorageService.getAllOtps());
+        if (!otpStorageService.getAllOtps().containsKey(cardNumber)) {
+            System.out.println("OTP не отправлялся на номер привязанный к карте " + cardNumber);
+            return ResponseEntity.badRequest().body("OTP не отправлялся на этот номер");
+        }
+        otpStorageService.sendNewOtp(cardNumber);
+        return ResponseEntity.ok("Новый OTP отправлен");
     }
 
-    private void sendOtp(String phoneNumber, String otp) {
-        System.out.println("Отправка OTP " + otp + " на номер " + phoneNumber);
-    }
 }

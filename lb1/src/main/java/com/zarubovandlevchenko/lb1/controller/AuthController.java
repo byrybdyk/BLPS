@@ -23,5 +23,10 @@ public class AuthController {
     public ResponseEntity<?> verifyOtp(@RequestParam String cardNumber, @RequestParam String otp) {
         return authService.verifyOtp(cardNumber, otp);
     }
+    @PatchMapping("/new-otp")
+    public ResponseEntity<?> newOtp(@RequestParam String cardNumber) {
+        return authService.sendNewOtp(cardNumber);
+    }
+
 }
 
