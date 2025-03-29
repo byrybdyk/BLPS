@@ -31,7 +31,7 @@ public class AuthService {
     private ResponseEntity<?> handleCardAuthentication(String cardNumber) {
         Card card = cardRepository.findByCardNumber(cardNumber);
         if (card == null) {
-            return ResponseEntity.badRequest().body("Карта не найдена");
+            throw new IllegalArgumentException("Card with number " + cardNumber + "didn't found");
         }
 
         otpStorageService.sendOtp(cardNumber);
