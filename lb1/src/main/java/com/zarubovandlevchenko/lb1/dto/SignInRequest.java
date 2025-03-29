@@ -12,4 +12,5 @@ public class SignInRequest {
     private String name;
     private String password;
     private String card_number;
+    private String phoneNumber;
 }

@@ -21,8 +21,6 @@ public class RegisterService {
                     "firstName": "",
                     "lastName": "",
                     "phoneNumber": "",
-                    "login": "",
-                    "password": "",
                     "passportNumber": ""
                 }
                 """;

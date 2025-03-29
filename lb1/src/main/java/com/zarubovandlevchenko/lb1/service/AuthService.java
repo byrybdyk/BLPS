@@ -24,7 +24,7 @@ public class AuthService {
         if (request.getCard_number() != null) {
             return handleCardAuthentication(request.getCard_number());
         } else {
-            return handlePasswordAuthentication(request.getLogin(), request.getPassword());
+            return handlePasswordAuthentication(request.getLogin(), request.getPassword(),request.getPhoneNumber());
         }
     }
 
@@ -39,12 +39,14 @@ public class AuthService {
         return ResponseEntity.ok("OTP отправлен");
     }
 
-    private ResponseEntity<?> handlePasswordAuthentication(String login, String password) {
-        UserModal user = userRepository.findByLoginOrPhoneNumber(login, login);
+    private ResponseEntity<?> handlePasswordAuthentication(String login, String password,String phoneNumber) {
+        UserModal user = userRepository.findByLoginOrPhoneNumber(login, phoneNumber);
         if (user == null) {
             return ResponseEntity.badRequest().body("Неверный логин или пароль");
         }
-
+        if (!user.getPassword().equals(password)) {
+            return ResponseEntity.badRequest().body("Неверный логин или пароль");
+        }
         return ResponseEntity.ok(Map.of("message", "Вход успешный", "user", user.getLogin()));
     }
 
