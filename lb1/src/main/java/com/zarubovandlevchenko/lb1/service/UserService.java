@@ -59,10 +59,10 @@ public class UserService {
         return true;
     }
 
-    public void saveUser(UserModal userModal) {
+    public UserModal saveUser(UserModal userModal) {
         if(userModal == null) {
             throw new IllegalArgumentException("User cannot be null");
         }
-        userRepository.save(userModal);
+        return userRepository.save(userModal);
     }
 }

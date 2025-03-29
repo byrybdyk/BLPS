@@ -22,7 +22,7 @@ public class Card {
     @Column(name = "card_id")
     private Long cardId;
 
-    @Column(name = "card_number", nullable = false, length = 16)
+    @Column(name = "card_number", nullable = false, length = 20)
     private String cardNumber;
 
     @Column(name = "expired_at", nullable = false)

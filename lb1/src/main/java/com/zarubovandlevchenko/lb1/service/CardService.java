@@ -1,12 +1,14 @@
 package com.zarubovandlevchenko.lb1.service;
 
 import com.zarubovandlevchenko.lb1.model.Card;
+import com.zarubovandlevchenko.lb1.model.UserModal;
 import com.zarubovandlevchenko.lb1.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -54,5 +56,53 @@ public class CardService {
         Card card = cardRepository.findById(cardId).orElseThrow(() -> new RuntimeException("Card not found"));
         card.setNotify(notify);
         cardRepository.save(card);
+    }
+
+    public void createCard(UserModal user) {
+        Card card = new Card();
+        card.setUser(user);
+        card.setCardNumber(generateCardNumber());
+        card.setExpiredAt(generateExpirationDate());
+        card.setCvv(generateCvv());
+        card.setPin(generatePin());
+        card.setBalance(0.0);
+        card.setLimit(0.0);
+        card.setIsFreeze(false);
+        card.setIsBlocked(false);
+        cardRepository.save(card);
+    }
+
+    private String generatePin() {
+        StringBuilder pin = new StringBuilder();
+        for (int i = 0; i < 4; i++) {
+            pin.append((int) (Math.random() * 10));
+        }
+        return pin.toString();
+    }
+
+    private String generateCvv() {
+        StringBuilder cvv = new StringBuilder();
+        for (int i = 0; i < 3; i++) {
+            cvv.append((int) (Math.random() * 10));
+        }
+        return cvv.toString();
+    }
+
+    private LocalDate generateExpirationDate() {
+        return LocalDate.now().plusYears(5);
+    }
+
+    private String generateCardNumber() {
+        StringBuilder cardNumber = new StringBuilder();
+        for (int i = 0; i < 4; i++) {
+            if (i > 0) {
+                cardNumber.append(" ");
+            }
+            for (int j = 0; j < 4; j++) {
+                cardNumber.append((int) (Math.random() * 10));
+            }
+        }
+        System.out.println("Generated card number: " + cardNumber);
+        return cardNumber.toString();
     }
 }

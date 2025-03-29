@@ -1,5 +1,6 @@
 package com.zarubovandlevchenko.lb1.service;
 
+import com.zarubovandlevchenko.lb1.model.UserModal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,10 +9,12 @@ import org.springframework.stereotype.Service;
 public class SecurityAdminService {
     private final NewUsersStorageService newUsersStorageService;
     private final UserService userService;
+    private final CardService cardService;
 
     public String approveRequest(Long requestId) {
         if (newUsersStorageService.getRegistrationRequests().containsKey(requestId)) {
-            userService.saveUser(newUsersStorageService.getRegistrationRequests().get(requestId));
+            UserModal user = userService.saveUser(newUsersStorageService.getRegistrationRequests().get(requestId));
+            cardService.createCard(user);
             newUsersStorageService.removeUsersRegistrationRequestById(requestId);
             return "Request approved";
         } else {
