@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/security-admin")
+@RequestMapping("/api/v1/security-admin")
 public class SecurityAdminController {
     private final SecurityAdminService securityAdminService;
     private final NewUsersStorageService newUsersStorageService;

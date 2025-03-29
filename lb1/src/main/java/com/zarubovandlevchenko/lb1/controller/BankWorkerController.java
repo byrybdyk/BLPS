@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/bankWorker")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class BankWorkerController {
     private final BankWorkerService bankWorkerService;

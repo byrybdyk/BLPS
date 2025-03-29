@@ -17,12 +17,6 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/{id}/goToBank")
-    public ResponseEntity<Void> goToBank(@PathVariable String id) {
-        System.out.println("Клиент " + id + " пришёл в банк.");
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping
     public ResponseEntity<List<UserModal>> getAllUsers() {
         return ResponseEntity.ok(userService.getUsers());
