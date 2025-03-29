@@ -1,5 +1,6 @@
 package com.zarubovandlevchenko.lb1.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "user_card") // Измененное имя таблицы
+@Table(name = "user_card")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -49,7 +50,7 @@ public class Card {
     @Column(name = "pin", nullable = false, length = 4)
     private String pin;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private UserModal user;
 }

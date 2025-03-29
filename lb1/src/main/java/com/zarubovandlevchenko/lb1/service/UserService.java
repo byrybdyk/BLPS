@@ -2,9 +2,11 @@ package com.zarubovandlevchenko.lb1.service;
 
 import com.zarubovandlevchenko.lb1.dto.SignUpRequest;
 import com.zarubovandlevchenko.lb1.model.UserModal;
-import com.zarubovandlevchenko.lb1.repo.UserRepository;
+import com.zarubovandlevchenko.lb1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -64,5 +66,21 @@ public class UserService {
             throw new IllegalArgumentException("User cannot be null");
         }
         return userRepository.save(userModal);
+    }
+
+    public List<UserModal> getUsers() {
+        List<UserModal> users = userRepository.findAll();
+        if (users.isEmpty()) {
+            throw new IllegalArgumentException("No users found");
+        }
+        return users;
+    }
+
+    public UserModal getUserById(Long userId) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
 }

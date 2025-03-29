@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -104,5 +105,21 @@ public class CardService {
         }
         System.out.println("Generated card number: " + cardNumber);
         return cardNumber.toString();
+    }
+
+    public Card getCardById(Long cardId) {
+        if (cardId == null) {
+            throw new RuntimeException("Card ID cannot be null");
+        }
+        return cardRepository.findById(cardId)
+                .orElseThrow(() -> new RuntimeException("Card not found"));
+    }
+
+    public List<Card> getAllCards() {
+        List<Card> cards = cardRepository.findAll();
+        if (cards.isEmpty()) {
+            throw new RuntimeException("No cards found");
+        }
+        return cards;
     }
 }

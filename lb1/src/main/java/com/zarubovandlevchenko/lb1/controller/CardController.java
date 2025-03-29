@@ -1,19 +1,24 @@
 package com.zarubovandlevchenko.lb1.controller;
 
+import com.zarubovandlevchenko.lb1.model.Card;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.zarubovandlevchenko.lb1.service.CardService;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/card")
+@RequestMapping("/api/v1/cards")
+@RequiredArgsConstructor
 public class CardController {
 
     private final CardService cardService;
 
-    public CardController(CardService cardService) {
-        this.cardService = cardService;
+    @GetMapping
+    public ResponseEntity<List<Card>> getAllCards() {
+        return ResponseEntity.ok(cardService.getAllCards());
     }
 
     @PostMapping("/setLimit")

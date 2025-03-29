@@ -3,15 +3,13 @@ package com.zarubovandlevchenko.lb1.service;
 import com.zarubovandlevchenko.lb1.dto.SignInRequest;
 import com.zarubovandlevchenko.lb1.model.Card;
 import com.zarubovandlevchenko.lb1.model.UserModal;
-import com.zarubovandlevchenko.lb1.repo.UserRepository;
+import com.zarubovandlevchenko.lb1.repository.UserRepository;
 import com.zarubovandlevchenko.lb1.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
