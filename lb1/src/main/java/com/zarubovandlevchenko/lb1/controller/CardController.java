@@ -21,34 +21,44 @@ public class CardController {
         return ResponseEntity.ok(cardService.getAllCards());
     }
 
-    @PostMapping("/setLimit")
-    public ResponseEntity<Void> setLimit(@RequestBody Long cardId, @RequestBody Double limit) {
-        cardService.setLimit(cardId, limit);
+    @GetMapping("/user/{id}/cards")
+    public ResponseEntity<List<Card>> getUserCards(@PathVariable Long id) {
+        return ResponseEntity.ok(cardService.getUserCards(id));
+    }
+
+    @GetMapping("/operationsList")
+    public ResponseEntity<String> getOperationsList() {
+        return ResponseEntity.ok(cardService.getOperationsList());
+    }
+
+    @PostMapping("/{id}/setLimit/{limit}")
+    public ResponseEntity<Void> setLimit(@PathVariable Long id, @PathVariable Double limit) {
+        cardService.setLimit(id, limit);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/setFreeze")
-    public ResponseEntity<Void> setFreeze(@RequestBody Long cardId, @RequestBody Boolean isFreeze) {
-        cardService.setFreeze(cardId, isFreeze);
+    @PostMapping("/{id}/setFreeze/{isFreeze}")
+    public ResponseEntity<Void> setFreeze(@PathVariable Long id, @PathVariable Boolean isFreeze) {
+        cardService.setFreeze(id, isFreeze);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/setBlock")
-    public ResponseEntity<Void> setBlock(@RequestBody Long cardId, @RequestBody Boolean isBlocked) {
-        cardService.setBlock(cardId, isBlocked);
+    @PostMapping("/{id}/setBlock/{isBlocked}")
+    public ResponseEntity<Void> setBlock(@PathVariable Long id, @PathVariable Boolean isBlocked) {
+        cardService.setBlock(id, isBlocked);
         return ResponseEntity.ok().build();
     }
 
 
-    @PostMapping("/setPin")
-    public ResponseEntity<Void> setPin(@RequestBody Long cardId, @RequestBody Integer pin) {
-        cardService.setPin(cardId, pin);
+    @PostMapping("/{id}/setPin/{pin}")
+    public ResponseEntity<Void> setPin(@PathVariable Long id, @PathVariable Integer pin) {
+        cardService.setPin(id, pin);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/setNotify")
-    public ResponseEntity<Void> setNotify(@RequestBody Long cardId, @RequestBody Boolean notify) {
-        cardService.setNotify(cardId, notify);
+    @PostMapping("/{id}/setNotify/{isNotify}")
+    public ResponseEntity<Void> setNotify(@PathVariable Long id, @PathVariable Boolean isNotify) {
+        cardService.setNotify(id, isNotify);
         return ResponseEntity.ok().build();
     }
 }

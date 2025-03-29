@@ -15,6 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CardService {
     private final CardRepository cardRepository;
+    private final UserService userService;
+
     public void setLimit(Long cardId, Double limit) {
         Card card = cardRepository.findById(cardId).orElseThrow(() -> new RuntimeException("Card not found"));
         if (!validateLimit(limit)) {
@@ -121,5 +123,26 @@ public class CardService {
             throw new RuntimeException("No cards found");
         }
         return cards;
+    }
+
+    public List<Card> getUserCards(Long id) {
+        UserModal user = userService.getUserById(id);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+        List<Card> cards = cardRepository.findAllByUser(user);
+        if (cards.isEmpty()) {
+            throw new RuntimeException("No cards found for user");
+        }
+        return cards;
+    }
+
+    public String getOperationsList() {
+        String list = "1. Установить лимит\n" +
+                "2. Заморозить/разморозить карту\n" +
+                "3. Заблокировать карту\n" +
+                "4. Установить Pin\n" +
+                "5. Включить/выключить уведомления\n";
+        return list;
     }
 }
