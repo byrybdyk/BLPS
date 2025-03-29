@@ -16,6 +16,7 @@ public class SecurityAdminService {
             UserModal user = userService.saveUser(newUsersStorageService.getRegistrationRequests().get(requestId));
             cardService.createCard(user);
             newUsersStorageService.removeUsersRegistrationRequestById(requestId);
+            System.out.println("Карта готова, можете идти забирать");
             return "Request approved";
         } else {
             return "Request not found";
@@ -25,6 +26,7 @@ public class SecurityAdminService {
     public String rejectRequest(Long requestId) {
         if (newUsersStorageService.getRegistrationRequests().containsKey(requestId)) {
             newUsersStorageService.removeUsersRegistrationRequestById(requestId);
+            System.out.println("Ваша заявка отклонена");
             return "Request rejected";
         } else {
             return "Request not found";
