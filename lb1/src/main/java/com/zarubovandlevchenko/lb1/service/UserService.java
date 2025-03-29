@@ -1,6 +1,7 @@
 package com.zarubovandlevchenko.lb1.service;
 
 import com.zarubovandlevchenko.lb1.dto.SignUpRequest;
+import com.zarubovandlevchenko.lb1.exception.UserNotFoundException;
 import com.zarubovandlevchenko.lb1.model.UserModal;
 import com.zarubovandlevchenko.lb1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,16 +17,15 @@ public class UserService {
     public UserModal validateAndCreateUser(SignUpRequest request) {
         if(validateUserFirstOrSecondName(request.getName())&&
                 validateUserFirstOrSecondName(request.getLastName())&&
-        validatePhoneNumber(request.getPhoneNumber())&&
-                validatePassport(request.getPassport())){
+            validatePhoneNumber(request.getPhoneNumber())&&
+                validatePassport(request.getPassport())
+        ){
             UserModal newUser = new UserModal();
             newUser.setFirstName(request.getName());
             newUser.setLastName(request.getLastName());
             newUser.setPhoneNumber(request.getPhoneNumber());
             newUser.setPassportNumber(request.getPassport());
             return newUser;
-
-
         }
         return null;
     }
@@ -71,7 +71,7 @@ public class UserService {
     public List<UserModal> getUsers() {
         List<UserModal> users = userRepository.findAll();
         if (users.isEmpty()) {
-            throw new IllegalArgumentException("No users found");
+            return null;
         }
         return users;
     }
@@ -81,6 +81,6 @@ public class UserService {
             throw new IllegalArgumentException("User ID cannot be null");
         }
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException(userId));
     }
 }

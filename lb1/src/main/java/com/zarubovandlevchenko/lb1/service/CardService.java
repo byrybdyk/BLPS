@@ -1,5 +1,8 @@
 package com.zarubovandlevchenko.lb1.service;
 
+import com.zarubovandlevchenko.lb1.exception.CardNotFoundException;
+import com.zarubovandlevchenko.lb1.exception.InvalidLimitException;
+import com.zarubovandlevchenko.lb1.exception.InvalidPinException;
 import com.zarubovandlevchenko.lb1.model.Card;
 import com.zarubovandlevchenko.lb1.model.UserModal;
 import com.zarubovandlevchenko.lb1.repository.CardRepository;
@@ -18,9 +21,10 @@ public class CardService {
     private final UserService userService;
 
     public void setLimit(Long cardId, Double limit) {
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new RuntimeException("Card not found"));
+        Card card = cardRepository.findById(cardId)
+                .orElseThrow(() -> new CardNotFoundException(cardId));
         if (!validateLimit(limit)) {
-            throw new RuntimeException("Limit must be greater than 0");
+            throw new InvalidLimitException();
         }
         card.setLimit(limit);
         cardRepository.save(card);
@@ -31,21 +35,21 @@ public class CardService {
     }
 
     public void setFreeze(Long cardId, Boolean isFreeze) {
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new RuntimeException("Card not found"));
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException(cardId));
         card.setIsFreeze(isFreeze);
         cardRepository.save(card);
     }
 
     public void setBlock(Long cardId, Boolean isBlocked) {
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new RuntimeException("Card not found"));
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException(cardId));
         card.setIsBlocked(isBlocked);
         cardRepository.save(card);
     }
 
     public void setPin(Long cardId, Integer pin) {
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new RuntimeException("Card not found"));
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException(cardId));
         if (!validatePin(pin)) {
-            throw new RuntimeException("Pin must be 4 digits");
+            throw new InvalidPinException();
         }
         card.setPin(pin.toString());
         cardRepository.save(card);
@@ -56,7 +60,7 @@ public class CardService {
     }
 
     public void setNotify(Long cardId, Boolean notify) {
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new RuntimeException("Card not found"));
+        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException(cardId));
         card.setNotify(notify);
         cardRepository.save(card);
     }
@@ -111,16 +115,16 @@ public class CardService {
 
     public Card getCardById(Long cardId) {
         if (cardId == null) {
-            throw new RuntimeException("Card ID cannot be null");
+            throw new IllegalArgumentException("Card ID cannot be null");
         }
         return cardRepository.findById(cardId)
-                .orElseThrow(() -> new RuntimeException("Card not found"));
+                .orElseThrow(() -> new CardNotFoundException(cardId));
     }
 
     public List<Card> getAllCards() {
         List<Card> cards = cardRepository.findAll();
         if (cards.isEmpty()) {
-            throw new RuntimeException("No cards found");
+            return null;
         }
         return cards;
     }
@@ -128,11 +132,11 @@ public class CardService {
     public List<Card> getUserCards(Long id) {
         UserModal user = userService.getUserById(id);
         if (user == null) {
-            throw new RuntimeException("User not found");
+            throw new IllegalArgumentException("User not found");
         }
         List<Card> cards = cardRepository.findAllByUser(user);
         if (cards.isEmpty()) {
-            throw new RuntimeException("No cards found for user");
+            return null;
         }
         return cards;
     }
