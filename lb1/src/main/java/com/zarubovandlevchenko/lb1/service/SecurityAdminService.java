@@ -1,0 +1,30 @@
+package com.zarubovandlevchenko.lb1.service;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class SecurityAdminService {
+    private final NewUsersStorageService newUsersStorageService;
+    private final UserService userService;
+
+    public String approveRequest(Long requestId) {
+        if (newUsersStorageService.getRegistrationRequests().containsKey(requestId)) {
+            userService.saveUser(newUsersStorageService.getRegistrationRequests().get(requestId));
+            newUsersStorageService.removeUsersRegistrationRequestById(requestId);
+            return "Request approved";
+        } else {
+            return "Request not found";
+        }
+    }
+
+    public String rejectRequest(Long requestId) {
+        if (newUsersStorageService.getRegistrationRequests().containsKey(requestId)) {
+            newUsersStorageService.removeUsersRegistrationRequestById(requestId);
+            return "Request rejected";
+        } else {
+            return "Request not found";
+        }
+    }
+}

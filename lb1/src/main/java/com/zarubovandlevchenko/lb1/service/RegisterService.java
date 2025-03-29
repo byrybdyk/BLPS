@@ -59,6 +59,7 @@ public class RegisterService {
         UserModal newUser = newUsersStorageService.getNewUser(phoneNumber);
         if (newUser != null) {
             newUsersStorageService.removeNewUser(newUser);
+            newUsersStorageService.addUsersRegistrationRequest(newUser);
             return ResponseEntity.ok("Ожидайте подтверждения регистрации");
         } else {
             return ResponseEntity.badRequest().body("Пользователь не найден");

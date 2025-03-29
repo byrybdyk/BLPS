@@ -58,4 +58,11 @@ public class UserService {
         }
         return true;
     }
+
+    public void saveUser(UserModal userModal) {
+        if(userModal == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        userRepository.save(userModal);
+    }
 }
