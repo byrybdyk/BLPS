@@ -38,6 +38,6 @@ public class UserModal {
 
 
     @Column(unique = true)
-    private String passwordNumber;
+    private String passportNumber;
 
 }
