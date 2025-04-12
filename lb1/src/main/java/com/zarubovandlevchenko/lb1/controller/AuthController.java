@@ -19,11 +19,11 @@ public class AuthController {
         return authService.authenticate(request);
     }
 
-    @PostMapping("/verify-otp")
+    @PostMapping("/otp/verify")
     public ResponseEntity<?> verifyOtp(@RequestParam String cardNumber, @RequestParam String otp) {
         return authService.verifyOtp(cardNumber, otp);
     }
-    @PatchMapping("/new-otp")
+    @PostMapping("/otp/new")
     public ResponseEntity<?> newOtp(@RequestParam String cardNumber) {
         return authService.sendNewOtp(cardNumber);
     }
