@@ -1,5 +1,7 @@
 package com.zarubovandlevchenko.lb1.service;
 
+import com.zarubovandlevchenko.lb1.exception.CardNotFoundException;
+import com.zarubovandlevchenko.lb1.exception.UserNotFoundException;
 import com.zarubovandlevchenko.lb1.model.Card;
 import com.zarubovandlevchenko.lb1.model.UserModal;
 import lombok.RequiredArgsConstructor;
@@ -17,16 +19,13 @@ public class BankWorkerService {
         Card card = cardService.getCardById(cardId);
 
         if(user == null) {
-            System.out.println("Пользователь не найден");
-            return;
+            throw new IllegalArgumentException("User cannot be null");
         }
         if(card == null) {
-            System.out.println("Карта не найдена");
-            return;
+            throw new CardNotFoundException(cardId);
         }
         if(!card.getUser().getId().equals(user.getId())) {
-            System.out.println("Карта не принадлежит пользователю");
-            return;
+            throw new IllegalArgumentException("Card does not belong to the user");
         }
         System.out.println("Карта выдана пользователю " + user.getLastName() + " "+ user.getFirstName() + " с номером карты " + card.getCardNumber());
     }

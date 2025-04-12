@@ -17,47 +17,47 @@ public class CardController {
     private final CardService cardService;
 
     @GetMapping("/cards")
-    public ResponseEntity<List<Card>> getAllCards() {
-        return ResponseEntity.ok(cardService.getAllCards());
+    public List<Card> getAllCards() {
+        return cardService.getAllCards();
     }
 
     @GetMapping("/user/{id}/cards")
-    public ResponseEntity<List<Card>> getUserCards(@PathVariable Long id) {
-        return ResponseEntity.ok(cardService.getUserCards(id));
+    public List<Card> getUserCards(@PathVariable Long id) {
+        return cardService.getUserCards(id);
     }
 
     @GetMapping("/cards/operations")
-    public ResponseEntity<String> getOperationsList() {
-        return ResponseEntity.ok(cardService.getOperationsList());
+    public String getOperationsList() {
+        return cardService.getOperationsList();
     }
 
     @PatchMapping("/cards/{id}/limit")
-    public ResponseEntity<Void> setLimit(@PathVariable Long id, @RequestBody Double limit) {
+    public String setLimit(@PathVariable Long id, @RequestBody Double limit) {
         cardService.setLimit(id, limit);
-        return ResponseEntity.ok().build();
+        return "Limit "+ limit + " successfully set for card with id " + id;
     }
 
     @PatchMapping("/cards/{id}/freeze")
-    public ResponseEntity<Void> setFreeze(@PathVariable Long id, @RequestBody Boolean isFreeze) {
+    public String setFreeze(@PathVariable Long id, @RequestBody Boolean isFreeze) {
         cardService.setFreeze(id, isFreeze);
-        return ResponseEntity.ok().build();
+        return "Freeze status " + isFreeze + " successfully set for card with id " + id;
     }
 
     @PatchMapping("cards/{id}/block")
-    public ResponseEntity<Void> setBlock(@PathVariable Long id, @RequestBody Boolean isBlocked) {
+    public String setBlock(@PathVariable Long id, @RequestBody Boolean isBlocked) {
         cardService.setBlock(id, isBlocked);
-        return ResponseEntity.ok().build();
+        return "Block status " + isBlocked + " successfully set for card with id " + id;
     }
 
     @PatchMapping("cards/{id}/pin")
-    public ResponseEntity<Void> setPin(@PathVariable Long id, @RequestBody Integer pin) {
+    public String setPin(@PathVariable Long id, @RequestBody Integer pin) {
         cardService.setPin(id, pin);
-        return ResponseEntity.ok().build();
+        return "Pin update for card with id " + id;
     }
 
     @PostMapping("cards/{id}/notifications")
-    public ResponseEntity<Void> setNotify(@PathVariable Long id, @RequestBody Boolean isNotify) {
+    public String setNotify(@PathVariable Long id, @RequestBody Boolean isNotify) {
         cardService.setNotify(id, isNotify);
-        return ResponseEntity.ok().build();
+        return "Notification status " + isNotify + " successfully set for card with id " + id;
     }
 }

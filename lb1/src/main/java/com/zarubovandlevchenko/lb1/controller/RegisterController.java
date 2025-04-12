@@ -13,15 +13,13 @@ public class RegisterController {
     private final RegisterService registerService;
 
     @GetMapping("/form")
-    public ResponseEntity<?> getRegisterForm() {
-        String message = registerService.getRegisterForm();
-        return ResponseEntity.ok(message);
+    public String getRegisterForm() {
+        return registerService.getRegisterForm();
     }
 
     @PostMapping("/no-card")
-    public ResponseEntity<?> dontHaveCard() {
-        String message = registerService.getRegisterNotify();
-        return ResponseEntity.ok(message);
+    public String dontHaveCard() {
+        return registerService.getRegisterNotify();
     }
 
     @PostMapping

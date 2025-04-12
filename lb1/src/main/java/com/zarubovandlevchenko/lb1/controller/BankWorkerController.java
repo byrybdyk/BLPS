@@ -12,10 +12,10 @@ public class BankWorkerController {
     private final BankWorkerService bankWorkerService;
 
     @GetMapping("/cards/{cardId}/issue")
-    public ResponseEntity<?> giveCard(
+    public String giveCard(
             @PathVariable Long cardId,
             @RequestBody Long userId) {
         bankWorkerService.giveCard(cardId, userId);
-        return ResponseEntity.ok("Card given");
+        return "Card given";
     }
 }
