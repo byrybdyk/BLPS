@@ -1,7 +1,7 @@
 package com.zarubovandlevchenko.lb1.service;
 
 import com.zarubovandlevchenko.lb1.dto.SignUpRequest;
-import com.zarubovandlevchenko.lb1.model.UserModal;
+import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

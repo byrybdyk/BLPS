@@ -2,8 +2,8 @@ package com.zarubovandlevchenko.lb1.service;
 
 import com.zarubovandlevchenko.lb1.dto.SignUpRequest;
 import com.zarubovandlevchenko.lb1.exception.UserNotFoundException;
-import com.zarubovandlevchenko.lb1.model.UserModal;
-import com.zarubovandlevchenko.lb1.repository.UserRepository;
+import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
+import com.zarubovandlevchenko.lb1.repository.dbuser.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

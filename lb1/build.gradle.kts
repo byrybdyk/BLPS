@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.4.3"
 	id("io.spring.dependency-management") version "1.1.7"
+	kotlin("jvm")
 }
 
 group = "com.zarubovandlevchenko"
@@ -33,7 +34,7 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
-
+	implementation("javax.transaction:javax.transaction-api:1.3")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
@@ -41,8 +42,20 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.0")
+
+	implementation("com.atomikos:transactions-jta:6.0.0:jakarta")
+	implementation("com.atomikos:transactions-jdbc:6.0.0:jakarta")
+	implementation("com.atomikos:transactions-jms:6.0.0:jakarta")
+
+	implementation(kotlin("stdlib-jdk8"))
 }
+
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+tasks.withType<JavaCompile> {
+	options.compilerArgs.add("-Xlint:-deprecation")
 }

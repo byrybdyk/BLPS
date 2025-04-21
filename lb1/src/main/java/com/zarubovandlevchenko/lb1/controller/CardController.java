@@ -1,12 +1,10 @@
 package com.zarubovandlevchenko.lb1.controller;
 
-import com.zarubovandlevchenko.lb1.model.Card;
+import com.zarubovandlevchenko.lb1.model.dbcard.Card;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.zarubovandlevchenko.lb1.service.CardService;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController

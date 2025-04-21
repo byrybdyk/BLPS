@@ -1,10 +1,8 @@
 package com.zarubovandlevchenko.lb1.service;
 
-import com.zarubovandlevchenko.lb1.model.UserModal;
+import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

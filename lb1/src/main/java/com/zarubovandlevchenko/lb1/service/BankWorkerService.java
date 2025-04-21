@@ -1,9 +1,8 @@
 package com.zarubovandlevchenko.lb1.service;
 
 import com.zarubovandlevchenko.lb1.exception.CardNotFoundException;
-import com.zarubovandlevchenko.lb1.exception.UserNotFoundException;
-import com.zarubovandlevchenko.lb1.model.Card;
-import com.zarubovandlevchenko.lb1.model.UserModal;
+import com.zarubovandlevchenko.lb1.model.dbcard.Card;
+import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ public class BankWorkerService {
         if(card == null) {
             throw new CardNotFoundException(cardId);
         }
-        if(!card.getUser().getId().equals(user.getId())) {
+        if(!card.getUser().equals(user.getId())) {
             throw new IllegalArgumentException("Card does not belong to the user");
         }
         System.out.println("Карта выдана пользователю " + user.getLastName() + " "+ user.getFirstName() + " с номером карты " + card.getCardNumber());

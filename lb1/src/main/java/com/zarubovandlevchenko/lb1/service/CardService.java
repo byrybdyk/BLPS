@@ -3,14 +3,12 @@ package com.zarubovandlevchenko.lb1.service;
 import com.zarubovandlevchenko.lb1.exception.CardNotFoundException;
 import com.zarubovandlevchenko.lb1.exception.InvalidLimitException;
 import com.zarubovandlevchenko.lb1.exception.InvalidPinException;
-import com.zarubovandlevchenko.lb1.model.Card;
-import com.zarubovandlevchenko.lb1.model.UserModal;
-import com.zarubovandlevchenko.lb1.repository.CardRepository;
+import com.zarubovandlevchenko.lb1.model.dbcard.Card;
+import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
+import com.zarubovandlevchenko.lb1.repository.dbcard.CardRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -67,7 +65,7 @@ public class CardService {
 
     public void createCard(UserModal user) {
         Card card = new Card();
-        card.setUser(user);
+        card.setUser(user.getId());
         card.setCardNumber(generateCardNumber());
         card.setExpiredAt(generateExpirationDate());
         card.setCvv(generateCvv());

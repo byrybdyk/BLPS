@@ -1,13 +1,12 @@
-package com.zarubovandlevchenko.lb1.model;
+package com.zarubovandlevchenko.lb1.model.dbcard;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -50,7 +49,6 @@ public class Card {
     @Column(name = "pin", nullable = false, length = 4)
     private String pin;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserModal user;
+    @Column(name = "user_id", nullable = false)
+    private Long user;
 }

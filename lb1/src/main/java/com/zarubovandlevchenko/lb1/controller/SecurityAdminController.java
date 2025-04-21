@@ -1,10 +1,9 @@
 package com.zarubovandlevchenko.lb1.controller;
 
 import com.zarubovandlevchenko.lb1.dto.StatusUpdateRequest;
-import com.zarubovandlevchenko.lb1.model.UserModal;
+import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
 import com.zarubovandlevchenko.lb1.service.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
