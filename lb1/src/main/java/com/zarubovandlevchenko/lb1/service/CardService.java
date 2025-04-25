@@ -63,7 +63,7 @@ public class CardService {
         cardRepository.save(card);
     }
 
-    public void createCard(UserModal user) {
+    public Card createCard(UserModal user) {
         Card card = new Card();
         card.setUser(user.getId());
         card.setCardNumber(generateCardNumber());
@@ -75,6 +75,7 @@ public class CardService {
         card.setIsFreeze(false);
         card.setIsBlocked(false);
         cardRepository.save(card);
+        return card;
     }
 
     private String generatePin() {

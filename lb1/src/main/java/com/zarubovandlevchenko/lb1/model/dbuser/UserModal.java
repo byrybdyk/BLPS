@@ -13,7 +13,9 @@ import lombok.NoArgsConstructor;
 public class UserModal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq")
+    @SequenceGenerator(name = "users_seq", sequenceName = "users_id_seq", allocationSize = 1)
     private Long id;
 
     @Column(unique = true)
@@ -31,5 +33,18 @@ public class UserModal {
 
     @Column(unique = true)
     private String passportNumber;
+
+    @Override
+    public String toString() {
+        return "UserModal{" +
+                "id=" + id +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", passportNumber='" + passportNumber + '\'' +
+                '}';
+    }
 
 }

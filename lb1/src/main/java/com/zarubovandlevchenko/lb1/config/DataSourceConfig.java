@@ -26,6 +26,7 @@ public class DataSourceConfig {
         ds.setXaDataSourceClassName("org.postgresql.xa.PGXADataSource");
         ds.setUniqueResourceName("data_db");
         ds.setXaProperties(buildXaProperties(dataDbProperties));
+        ds.setPoolSize(5);
         return ds;
     }
 
@@ -35,6 +36,7 @@ public class DataSourceConfig {
         ds.setXaDataSourceClassName("org.postgresql.xa.PGXADataSource");
         ds.setUniqueResourceName("users_db");
         ds.setXaProperties(buildXaProperties(usersDbProperties));
+        ds.setPoolSize(5);
         return ds;
     }
 

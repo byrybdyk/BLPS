@@ -46,7 +46,7 @@ public class JpaConfig {
             entityManagerFactoryRef = "usersDbEntityManagerFactory",
             transactionManagerRef = "transactionManager"
     )
-    public static class UsesDbJpaConfig {
+    public static class UsersDbJpaConfig {
     }
 
     @Bean(name = "dataDbEntityManagerFactory")
@@ -77,6 +77,11 @@ public class JpaConfig {
         Map<String, Object> properties = new HashMap<>();
         properties.put("hibernate.dialect", dbProperties.getDialect());
         properties.put("hibernate.hbm2ddl.auto", dbProperties.getHbm2ddlAuto());
+
+        properties.put("hibernate.show_sql", "true");
+        properties.put("hibernate.format_sql", "true");
+        properties.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
+        properties.put("javax.persistence.transactionType", "JTA");
         return properties;
     }
 
@@ -88,7 +93,7 @@ public class JpaConfig {
         return userTransactionManager;
     }
 
-    @Bean
+    @Bean()
     public JtaTransactionManager transactionManager(UserTransactionManager userTransactionManager) {
         JtaTransactionManager jtaTransactionManager = new JtaTransactionManager();
         jtaTransactionManager.setTransactionManager(userTransactionManager);

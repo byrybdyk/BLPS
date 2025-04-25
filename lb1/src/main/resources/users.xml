@@ -1,62 +1,244 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <users>
+            
+    
     <user>
+                        
+        
         <id>1</id>
+                        
+        
         <roles>
+                                    
+            
             <role>ROLE_SB</role>
+                                
+        
         </roles>
+                        
+        
         <credentials>
+                                    
+            
             <card>
+                                                
+                
                 <number>77777777777777777777</number>
+                                                
+                
                 <otp>12345</otp>
+                                            
+            
             </card>
+                                    
+            
             <login>
+                                                
+                
                 <username>SB</username>
+                                                
+                
                 <password>SB</password>
+                                            
+            
             </login>
+                                    
+            
             <phone>
+                                                
+                
                 <number>+77777777777</number>
+                                                
+                
                 <password>SB</password>
+                                            
+            
             </phone>
+                                
+        
         </credentials>
+                    
+    
     </user>
+            
+    
     <user>
+                        
+        
         <id>2</id>
+                        
+        
         <roles>
+                                    
+            
             <role>ROLE_BE</role>
+                                
+        
         </roles>
+                        
+        
         <credentials>
+                                    
+            
             <card>
+                                                
+                
                 <number>11111111111111111111</number>
+                                                
+                
                 <otp>12345</otp>
+                                            
+            
             </card>
+                                    
+            
             <login>
+                                                
+                
                 <username>BE</username>
+                                                
+                
                 <password>BE</password>
+                                            
+            
             </login>
+                                    
+            
             <phone>
+                                                
+                
                 <number>+71111111111</number>
+                                                
+                
                 <password>BE</password>
+                                            
+            
             </phone>
+                                
+        
         </credentials>
+                    
+    
     </user>
+            
+    
     <user>
+                        
+        
         <id>3</id>
+                        
+        
+        <roles>
+                                    
+            
+            <role>ROLE_USER</role>
+                                
+        
+        </roles>
+                        
+        
+        <credentials>
+                                    
+            
+            <card>
+                                                
+                
+                <number>5555555555555555555</number>
+                                                
+                
+                <otp>12345</otp>
+                                            
+            
+            </card>
+                                    
+            
+            <login>
+                                                
+                
+                <username>USER</username>
+                                                
+                
+                <password>USER</password>
+                                            
+            
+            </login>
+                                    
+            
+            <phone>
+                                                
+                
+                <number>+75555555555</number>
+                                                
+                
+                <password>USER</password>
+                                            
+            
+            </phone>
+                                
+        
+        </credentials>
+                    
+    
+    </user>
+        
+    
+    <user>
+                
+        <id>1</id>
+                
+        <roles>
+                        
+            <role>ROLE_USER</role>
+                    
+        </roles>
+                
+        <credentials>
+                        
+            <card>
+                                
+                <number>9780 3525 6889 9942</number>
+                                
+                <otp>12345</otp>
+                            
+            </card>
+                        
+            <login>
+                                
+                <username>USER1</username>
+                                
+                <password>USER1</password>
+                            
+            </login>
+                        
+            <phone>
+                                
+                <number>7777 777777</number>
+                                
+                <password>USER1</password>
+                            
+            </phone>
+                    
+        </credentials>
+            
+    </user>
+    
+    <user>
+        <id>19</id>
         <roles>
             <role>ROLE_USER</role>
         </roles>
         <credentials>
             <card>
-                <number>5555555555555555555</number>
+                <number>2943722985920412</number>
                 <otp>12345</otp>
             </card>
             <login>
-                <username>USER</username>
-                <password>USER</password>
+                <username>USER19</username>
+                <password>USER19</password>
             </login>
             <phone>
-                <number>+75555555555</number>
-                <password>USER</password>
+                <number>4321 223426</number>
+                <password>USER19</password>
             </phone>
         </credentials>
     </user>

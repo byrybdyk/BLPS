@@ -33,7 +33,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/registration-requests").hasRole("SB")
                         .requestMatchers("/api/v1/cards").hasAnyRole("SB", "BE")
                         .requestMatchers("/api/v1/cards/{}/issue").hasRole("BE")
-                        .requestMatchers("/api/v1/auth/").permitAll()
+                        .requestMatchers("/api/v1/auth/", "api/v1/registration/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

@@ -2,7 +2,18 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.4.3"
 	id("io.spring.dependency-management") version "1.1.7"
+	id("org.hibernate.orm") version("6.4.0.Final")
 	kotlin("jvm")
+
+}
+
+hibernate {
+	enhancement {
+		enableLazyInitialization.set(true)
+		enableDirtyTracking.set(true)
+		enableAssociationManagement.set(true)
+		enableExtendedEnhancement.set(false)
+	}
 }
 
 group = "com.zarubovandlevchenko"
@@ -30,7 +41,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-rest")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
-
+	implementation("org.hibernate.orm:hibernate-core:6.4.0.Final")
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
@@ -51,6 +62,9 @@ dependencies {
 
 	implementation(kotlin("stdlib-jdk8"))
 }
+
+
+
 
 
 tasks.withType<Test> {

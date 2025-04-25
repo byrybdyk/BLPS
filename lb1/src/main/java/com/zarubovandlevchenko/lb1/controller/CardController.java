@@ -14,6 +14,7 @@ public class CardController {
 
     private final CardService cardService;
 
+
     @GetMapping("/cards")
     public List<Card> getAllCards() {
         return cardService.getAllCards();
