@@ -1,19 +1,21 @@
 package com.zarubovandlevchenko.lb1.config;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.security.auth.callback.*;
 import javax.security.auth.login.*;
 import javax.security.auth.Subject;
 import java.io.File;
 import java.security.Principal;
 import java.util.*;
-//LoginModule implementation of the Java Authentication and Authorization Service (JAAS).
-// It is used to authenticate users based on data from the users.xml file.
+
 public class XmlLoginModule implements javax.security.auth.spi.LoginModule {
 
     private Subject subject;
     private CallbackHandler callbackHandler;
-    private Map<String, ?> sharedState;
-    private Map<String, ?> options;
     private boolean loginSucceeded = false;
     private Principal userPrincipal;
     private List<String> roles = new ArrayList<>();
@@ -23,8 +25,6 @@ public class XmlLoginModule implements javax.security.auth.spi.LoginModule {
     public void initialize(Subject subject, CallbackHandler callbackHandler, Map<String, ?> sharedState, Map<String, ?> options) {
         this.subject = subject;
         this.callbackHandler = callbackHandler;
-        this.sharedState = sharedState;
-        this.options = options;
     }
 
     @Override
@@ -42,25 +42,13 @@ public class XmlLoginModule implements javax.security.auth.spi.LoginModule {
             Users users = xmlMapper.readValue(xmlFile, Users.class);
 
             for (User user : users.getUsers()) {
-                if (username.startsWith("card:") && validateCard(user, username.substring(5), password)) {
-                    loginSucceeded = true;
-                    userPrincipal = new UserPrincipal(username);
-                    roles = user.getRoles();
-                    userId = user.getId();
-                    return true;
-                } else if (username.startsWith("login:") && validateLogin(user, username.substring(6), password)) {
-                    loginSucceeded = true;
-                    userPrincipal = new UserPrincipal(username);
-                    roles = user.getRoles();
-                    userId = user.getId();
-                    return true;
-                } else if (username.startsWith("phone:") && validatePhone(user, username.substring(6), password)) {
-                    loginSucceeded = true;
-                    userPrincipal = new UserPrincipal(username);
-                    roles = user.getRoles();
-                    userId = user.getId();
-                    return true;
-                }
+                    if (validateLogin(user, username, password)) {
+                        loginSucceeded = true;
+                        userPrincipal = new UserPrincipal(username);
+                        roles = user.getRoles();
+                        userId = user.getId();
+                        return true;
+                    }
             }
             throw new FailedLoginException("Invalid credentials");
         } catch (Exception e) {
@@ -68,11 +56,6 @@ public class XmlLoginModule implements javax.security.auth.spi.LoginModule {
         }
     }
 
-    private boolean validateCard(User user, String cardNumber, String otp) {
-        return user.getCredentials().getCard() != null &&
-                user.getCredentials().getCard().getNumber().equals(cardNumber) &&
-                user.getCredentials().getCard().getOtp().equals(otp);
-    }
 
     private boolean validateLogin(User user, String username, String password) {
         return user.getCredentials().getLogin() != null &&
@@ -80,11 +63,6 @@ public class XmlLoginModule implements javax.security.auth.spi.LoginModule {
                 user.getCredentials().getLogin().getPassword().equals(password);
     }
 
-    private boolean validatePhone(User user, String phoneNumber, String password) {
-        return user.getCredentials().getPhone() != null &&
-                user.getCredentials().getPhone().getNumber().equals(phoneNumber) &&
-                user.getCredentials().getPhone().getPassword().equals(password);
-    }
 
     @Override
     public boolean commit() throws LoginException {
@@ -115,139 +93,55 @@ public class XmlLoginModule implements javax.security.auth.spi.LoginModule {
         return true;
     }
 
+    @Setter
+    @Getter
     public static class Users {
+        @JacksonXmlElementWrapper(useWrapping = false)
+        @JacksonXmlProperty(localName = "user")
         private List<User> users;
 
-        public List<User> getUsers() {
-            return users;
-        }
-
-        public void setUsers(List<User> users) {
-            this.users = users;
-        }
     }
 
+    @Setter
+    @Getter
     public static class User {
         private Integer id;
         private List<String> roles;
         private Credentials credentials;
 
-        public Integer getId() {
-            return id;
-        }
-
-        public void setId(Integer id) {
-            this.id = id;
-        }
-
-        public List<String> getRoles() {
-            return roles;
-        }
-
-        public void setRoles(List<String> roles) {
-            this.roles = roles;
-        }
-
-        public Credentials getCredentials() {
-            return credentials;
-        }
-
-        public void setCredentials(Credentials credentials) {
-            this.credentials = credentials;
-        }
     }
 
+    @Setter
+    @Getter
     public static class Credentials {
         private Card card;
         private Login login;
         private Phone phone;
 
-        public Card getCard() {
-            return card;
-        }
-
-        public void setCard(Card card) {
-            this.card = card;
-        }
-
-        public Login getLogin() {
-            return login;
-        }
-
-        public void setLogin(Login login) {
-            this.login = login;
-        }
-
-        public Phone getPhone() {
-            return phone;
-        }
-
-        public void setPhone(Phone phone) {
-            this.phone = phone;
-        }
     }
 
+    @Setter
+    @Getter
     public static class Card {
         private String number;
         private String otp;
 
-        public String getNumber() {
-            return number;
-        }
-
-        public void setNumber(String number) {
-            this.number = number;
-        }
-
-        public String getOtp() {
-            return otp;
-        }
-
-        public void setOtp(String otp) {
-            this.otp = otp;
-        }
     }
 
+    @Setter
+    @Getter
     public static class Login {
         private String username;
         private String password;
 
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
     }
 
+    @Setter
+    @Getter
     public static class Phone {
         private String number;
         private String password;
 
-        public String getNumber() {
-            return number;
-        }
-
-        public void setNumber(String number) {
-            this.number = number;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
     }
 
     private static class UserPrincipal implements Principal {
