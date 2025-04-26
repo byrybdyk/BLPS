@@ -81,13 +81,73 @@
         </credentials>
     </user>
     <user>
+        <id>4</id>
+        <roles>
+            <role>ROLE_USER</role>
+        </roles>
+        <credentials>
+            <card>
+                <number>6801 9486 3664 5954</number>
+                <otp>12345</otp>
+            </card>
+            <login>
+                <username>USER4</username>
+                <password>USER4</password>
+            </login>
+            <phone>
+                <number>4321 234561</number>
+                <password>USER4</password>
+            </phone>
+        </credentials>
+    </user>
+    <user>
+        <id>5</id>
+        <roles>
+            <role>ROLE_USER</role>
+        </roles>
+        <credentials>
+            <card>
+                <number>2941 5601 1371 8819</number>
+                <otp>12345</otp>
+            </card>
+            <login>
+                <username>USER5</username>
+                <password>USER5</password>
+            </login>
+            <phone>
+                <number>4321 234561</number>
+                <password>USER5</password>
+            </phone>
+        </credentials>
+    </user>
+    <user>
+        <id>16</id>
+        <roles>
+            <role>ROLE_USER</role>
+        </roles>
+        <credentials>
+            <card>
+                <number>3617 1668 5489 7768</number>
+                <otp>12345</otp>
+            </card>
+            <login>
+                <username>USER16</username>
+                <password>USER16</password>
+            </login>
+            <phone>
+                <number>4321 234569</number>
+                <password>USER16</password>
+            </phone>
+        </credentials>
+    </user>
+    <user>
         <id>19</id>
         <roles>
             <role>ROLE_USER</role>
         </roles>
         <credentials>
             <card>
-                <number>2943722985920412</number>
+                <number>3091 6820 2150 0997</number>
                 <otp>12345</otp>
             </card>
             <login>
@@ -95,7 +155,7 @@
                 <password>USER19</password>
             </login>
             <phone>
-                <number>4321 223426</number>
+                <number>4321 234569</number>
                 <password>USER19</password>
             </phone>
         </credentials>

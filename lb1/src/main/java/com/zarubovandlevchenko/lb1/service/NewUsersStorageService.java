@@ -33,10 +33,16 @@ public class NewUsersStorageService {
     }
 
     public void addUsersRegistrationRequest(UserModal user) {
-        UsersRegistrationRequests.put((long) user.hashCode(), user);
+        Long requestsId = (long) user.hashCode();
+        UsersRegistrationRequests.put(requestsId, user);
     }
 
     public void removeUsersRegistrationRequestById(Long id) {
         UsersRegistrationRequests.remove(id);
+    }
+
+    public void restoreUserRegistrationRequest(UserModal user) {
+        Long requestId = (long) user.hashCode();
+        UsersRegistrationRequests.put(requestId, user);
     }
 }

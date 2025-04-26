@@ -44,32 +44,4 @@ public class SecurityAdminController {
         return securityAdminService.updateRequestStatus(requestId, request.getStatus());
     }
 
-    @PostMapping("/tessst")
-    @Transactional()
-    public void testSaveUser() {
-
-//        Card card = new Card();
-//        card.setUser(2L);
-//        card.setCardNumber("55555555555555555557");
-//        card.setCvv("123");
-//        card.setNotify(true);
-//        card.setPin("1234");
-//        card.setExpiredAt(LocalDate.now().plusDays(1));
-//        card.setIsBlocked(true);
-//        card.setIsFreeze(true);
-//        card.setBalance(22.2);
-//        cardRepository.save(card);
-//        Card savedCard = cardRepository.findByCardId(card.getCardId());
-//        System.out.println(savedCard);
-        UserModal user = new UserModal();
-        user.setPhoneNumber("+79603333333");
-        user.setLogin("testuser");
-        user.setPassword("testpass");
-        user.setFirstName("Test");
-        user.setLastName("User");
-        user.setPassportNumber("4321 223456");
-        userRepository.save(user);
-
-        System.out.println("Test saved user: " + user);
-    }
 }

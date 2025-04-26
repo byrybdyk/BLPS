@@ -1,5 +1,6 @@
 package com.zarubovandlevchenko.lb1.service;
 
+import com.atomikos.icatch.TransactionService;
 import com.zarubovandlevchenko.lb1.exception.CardNotFoundException;
 import com.zarubovandlevchenko.lb1.exception.InvalidLimitException;
 import com.zarubovandlevchenko.lb1.exception.InvalidPinException;
@@ -17,40 +18,66 @@ import java.util.List;
 public class CardService {
     private final CardRepository cardRepository;
     private final UserService userService;
+    private final TransactionHelper transactionHelper;
 
     public void setLimit(Long cardId, Double limit) {
-        Card card = cardRepository.findById(cardId)
-                .orElseThrow(() -> new CardNotFoundException(cardId));
-        if (!validateLimit(limit)) {
-            throw new InvalidLimitException();
+        var status = transactionHelper.createTransaction("setLimit");
+        try {
+            Card card = cardRepository.findById(cardId)
+                    .orElseThrow(() -> new CardNotFoundException(cardId));
+            if (!validateLimit(limit)) {
+                throw new InvalidLimitException();
+            }
+            card.setLimit(limit);
+            cardRepository.save(card);
+            transactionHelper.commit(status);
+        }catch(Exception e) {
+            transactionHelper.rollback(status);
         }
-        card.setLimit(limit);
-        cardRepository.save(card);
     }
 
     private Boolean validateLimit(Double limit) {
         return limit >= 0;
     }
 
+
     public void setFreeze(Long cardId, Boolean isFreeze) {
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException(cardId));
-        card.setIsFreeze(isFreeze);
-        cardRepository.save(card);
+        var status = transactionHelper.createTransaction("setFreeze");
+        try {
+            Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException(cardId));
+            card.setIsFreeze(isFreeze);
+            cardRepository.save(card);
+            transactionHelper.commit(status);
+        }catch(Exception e) {
+            transactionHelper.rollback(status);
+        }
     }
 
     public void setBlock(Long cardId, Boolean isBlocked) {
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException(cardId));
-        card.setIsBlocked(isBlocked);
-        cardRepository.save(card);
+        var status = transactionHelper.createTransaction("setBlock");
+        try {
+            Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException(cardId));
+            card.setIsBlocked(isBlocked);
+            cardRepository.save(card);
+            transactionHelper.commit(status);
+        }catch(Exception e) {
+            transactionHelper.rollback(status);
+        }
     }
 
     public void setPin(Long cardId, Integer pin) {
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException(cardId));
-        if (!validatePin(pin)) {
-            throw new InvalidPinException();
+        var status = transactionHelper.createTransaction("setPin");
+        try {
+            Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException(cardId));
+            if (!validatePin(pin)) {
+                throw new InvalidPinException();
+            }
+            card.setPin(pin.toString());
+            cardRepository.save(card);
+            transactionHelper.commit(status);
+        }catch (Exception e) {
+            transactionHelper.rollback(status);
         }
-        card.setPin(pin.toString());
-        cardRepository.save(card);
     }
 
     private boolean validatePin(Integer pin) {
@@ -58,24 +85,38 @@ public class CardService {
     }
 
     public void setNotify(Long cardId, Boolean notify) {
-        Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException(cardId));
-        card.setNotify(notify);
-        cardRepository.save(card);
+        var status = transactionHelper.createTransaction("setNotify");
+        try {
+            Card card = cardRepository.findById(cardId).orElseThrow(() -> new CardNotFoundException(cardId));
+            card.setNotify(notify);
+            cardRepository.save(card);
+            transactionHelper.commit(status);
+        }
+        catch(Exception e) {
+            transactionHelper.rollback(status);
+        }
     }
 
     public Card createCard(UserModal user) {
-        Card card = new Card();
-        card.setUser(user.getId());
-        card.setCardNumber(generateCardNumber());
-        card.setExpiredAt(generateExpirationDate());
-        card.setCvv(generateCvv());
-        card.setPin(generatePin());
-        card.setBalance(0.0);
-        card.setLimit(0.0);
-        card.setIsFreeze(false);
-        card.setIsBlocked(false);
-        cardRepository.save(card);
-        return card;
+        var status = transactionHelper.createTransaction("createCard");
+        try {
+            Card card = new Card();
+            card.setUser(user.getId());
+            card.setCardNumber(generateCardNumber());
+            card.setExpiredAt(generateExpirationDate());
+            card.setCvv(generateCvv());
+            card.setPin(generatePin());
+            card.setBalance(0.0);
+            card.setLimit(0.0);
+            card.setIsFreeze(false);
+            card.setIsBlocked(false);
+            cardRepository.save(card);
+            transactionHelper.commit(status);
+            return card;
+        }catch(Exception e) {
+            transactionHelper.rollback(status);
+            throw e;
+        }
     }
 
     private String generatePin() {

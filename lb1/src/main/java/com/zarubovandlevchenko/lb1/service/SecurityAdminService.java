@@ -1,13 +1,23 @@
 package com.zarubovandlevchenko.lb1.service;
-
+import com.atomikos.jdbc.internal.AtomikosSQLException;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.zarubovandlevchenko.lb1.Exception.InvalidStatusException;
+import com.zarubovandlevchenko.lb1.exception.UserNotFoundException;
 import com.zarubovandlevchenko.lb1.model.dbcard.Card;
 import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
 import com.zarubovandlevchenko.lb1.repository.dbuser.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import com.zarubovandlevchenko.lb1.xml.UserRegistration;
+import org.springframework.transaction.TransactionStatus;
+
+import java.sql.SQLException;
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class SecurityAdminService {
@@ -15,7 +25,7 @@ public class SecurityAdminService {
     private final UserService userService;
     private final CardService cardService;
     private final UserRepository userRepository;
-
+    private final TransactionHelper transactionHelper;
     public String updateRequestStatus(Long requestId, String status) throws Exception {
         if (newUsersStorageService.getRegistrationRequests().containsKey(requestId)) {
             if ("APPROVED".equals(status)) {
@@ -33,20 +43,64 @@ public class SecurityAdminService {
         }
     }
 
-    @Transactional
+    //ад уже здесь
     public void approveRequest(Long requestId) throws Exception {
+        TransactionStatus status = transactionHelper.createTransaction("approveRequest");
+        UserRegistration userRegistration = new UserRegistration();
+        String userId = null;
+        UserModal userModal = null;
+        boolean registeredInXml = false;
+        boolean requestRemoved = false;
+        Card card = null;
+        try {
+            if (newUsersStorageService.getRegistrationRequests().containsKey(requestId)) {
+                System.out.println("Processing registration request with ID: " + requestId);
+                userModal = userService.saveUser(newUsersStorageService.getRegistrationRequests().get(requestId));
+                userId = userModal.getId().toString();
+                System.out.println("User saved with ID: " + userId);
+                card = cardService.createCard(userModal);
 
+                System.out.println("Card created with number: " + card.getCardNumber());
+                System.out.println("Карта готова, можете идти забирать");
+            }
 
-
-        if (newUsersStorageService.getRegistrationRequests().containsKey(requestId)) {
-            UserModal user = userService.saveUser(newUsersStorageService.getRegistrationRequests().get(requestId));
-            UserModal currentUser = userRepository.findUserModalByPassportNumber(user.getPassportNumber())
-                    .orElseThrow(() -> new IllegalStateException("User with passport number " + user.getPassportNumber() + " not found after saving"));
-            Card card = cardService.createCard(currentUser);
-            UserRegistration userRegistration = new UserRegistration();
-            userRegistration.registerUser(currentUser.getId().toString(), "USER" + currentUser.getId().toString(), "USER" + currentUser.getId().toString(),card.getCardNumber(), currentUser.getPassportNumber());
+            userRegistration.registerUser(
+                    userId,
+                    "USER" + Objects.requireNonNull(userModal).getId(),
+                    "USER" + userModal.getId(),
+                    card.getCardNumber(),
+                    userModal.getPassportNumber());
+            registeredInXml = true;
+            System.out.println("User registered in XML");
             newUsersStorageService.removeUsersRegistrationRequestById(requestId);
-            System.out.println("Карта готова, можете идти забирать");
+            requestRemoved = true;
+            System.out.println("Registration request removed");
+//            if(true){
+//                throw new RuntimeException("before commit");
+//            }
+            transactionHelper.commit(status);
+            System.out.println("Transaction committed successfully");
+        } catch (Exception e) {
+            System.out.println("Error processing request ID: " + requestId + ". Rolling back transaction: " + e.getMessage());
+            transactionHelper.rollback(status);
+            if (registeredInXml) {
+                try {
+                    userRegistration.unregisterUser(userId);
+                    System.out.println("User " + userId + " unregistered from XML");
+                } catch (Exception ex) {
+                    System.out.println("Failed to unregister user " + userId + " from XML: " + ex.getMessage());
+                }
+            }
+            if (requestRemoved) {
+                try {
+                    newUsersStorageService.restoreUserRegistrationRequest(userModal);
+                    System.out.println("Restored registration request for user: " + userModal.getPhoneNumber());
+
+                } catch (Exception ex) {
+                    System.out.println("Failed to restore registration request for user: " + userModal.getPhoneNumber() + ": " + ex.getMessage());
+                }
+            }
+            throw e;
         }
     }
 

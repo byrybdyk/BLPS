@@ -18,7 +18,8 @@ import java.time.LocalDate;
 public class Card {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cards_seq")
+    @SequenceGenerator(name = "cards_seq", sequenceName = "cards_id_seq", allocationSize = 1)
     @Column(name = "card_id")
     private Long cardId;
 

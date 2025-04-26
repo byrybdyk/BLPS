@@ -12,9 +12,9 @@ public interface UserRepository extends JpaRepository<UserModal, Long> {
 
     boolean existsByPassportNumber(String passportNumber);
 
-    UserModal  findUserById(Long userId);
+    boolean existsByPhoneNumber(String phoneNumber);
 
-    UserModal findUserModalById(Long id);
+    Optional<UserModal> findUserModalById(Long id);
 
     Optional<UserModal> findUserModalByPassportNumber(String passportNumber);
 }

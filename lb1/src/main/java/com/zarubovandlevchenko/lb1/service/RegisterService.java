@@ -38,6 +38,8 @@ public class RegisterService {
 
     public ResponseEntity<String> registrate(SignUpRequest request) {
         UserModal newUser = userService.validateAndCreateUser(request);
+        newUser.setLogin(request.getPhoneNumber());
+        newUser.setPassword("USER");
         newUsersStorageService.addNewUser(newUser, request.getPhoneNumber());
         return handlePhonedAuthentication(request.getPhoneNumber());
     }

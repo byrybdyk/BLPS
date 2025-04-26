@@ -51,6 +51,9 @@ public class UserService {
         if (!phoneNumber.matches("\\+7\\d{10}")) {
             throw new IllegalArgumentException("Phone number must be in the format +7XXXXXXXXXX");
         }
+        if (userRepository.existsByPhoneNumber(phoneNumber)){
+            throw new IllegalArgumentException("phone number already exists");
+        }
         return true;
     }
 
