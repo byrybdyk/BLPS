@@ -54,7 +54,7 @@ public class JpaConfig {
             @Qualifier("dataDbDataSource") DataSource dataSource
             ) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource);
+        em.setJtaDataSource(dataSource);
         em.setPackagesToScan("com.zarubovandlevchenko.lb1.model.dbcard");
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaPropertyMap(buildJpaProperties(dataDbProperties));
@@ -66,7 +66,7 @@ public class JpaConfig {
             @Qualifier("usersDbDataSource") DataSource dataSource
             ) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource);
+        em.setJtaDataSource(dataSource);
         em.setPackagesToScan("com.zarubovandlevchenko.lb1.model.dbuser");
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaPropertyMap(buildJpaProperties(usersDbProperties));
@@ -80,16 +80,16 @@ public class JpaConfig {
 
         properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.format_sql", "true");
-        properties.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
-        properties.put("javax.persistence.transactionType", "JTA");
+//        properties.put("hibernate.temp.use_jdbc_metadata_defaults", "false");
+//        properties.put("javax.persistence.transactionType", "JTA");
         return properties;
     }
 
     @Bean(initMethod = "init", destroyMethod = "close")
     public UserTransactionManager userTransactionManager() throws SystemException {
         UserTransactionManager userTransactionManager = new UserTransactionManager();
-        userTransactionManager.setTransactionTimeout(300); // Таймаут транзакции в секундах
-        userTransactionManager.setForceShutdown(true); // Принудительное завершение при остановке
+        userTransactionManager.setTransactionTimeout(300);
+        userTransactionManager.setForceShutdown(true);
         return userTransactionManager;
     }
 

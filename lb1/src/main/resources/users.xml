@@ -160,4 +160,44 @@
             </phone>
         </credentials>
     </user>
+    <user>
+        <id>29</id>
+        <roles>
+            <role>ROLE_USER</role>
+        </roles>
+        <credentials>
+            <card>
+                <number>9596 5525 0942 0961</number>
+                <otp>12345</otp>
+            </card>
+            <login>
+                <username>USER29</username>
+                <password>USER29</password>
+            </login>
+            <phone>
+                <number>4321 224559</number>
+                <password>USER29</password>
+            </phone>
+        </credentials>
+    </user>
+    <user>
+        <id>32</id>
+        <roles>
+            <role>ROLE_USER</role>
+        </roles>
+        <credentials>
+            <card>
+                <number>8849 1571 6680 3536</number>
+                <otp>12345</otp>
+            </card>
+            <login>
+                <username>USER32</username>
+                <password>USER32</password>
+            </login>
+            <phone>
+                <number>4321 224579</number>
+                <password>USER32</password>
+            </phone>
+        </credentials>
+    </user>
 </users>
