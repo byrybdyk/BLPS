@@ -12,6 +12,7 @@ public class RegisterService {
     private final UserService userService;
     private final OtpStorageService otpStorageService;
     private final NewUsersStorageService newUsersStorageService;
+    private final JiraService jiraService;
 
 
 
@@ -60,6 +61,11 @@ public class RegisterService {
         if (newUser != null) {
             newUsersStorageService.removeNewUser(newUser);
             newUsersStorageService.addUsersRegistrationRequest(newUser);
+            
+            // Create Jira issue for security review
+            String issueKey = jiraService.createRegistrationIssue(newUser);
+            newUsersStorageService.addJiraIssueKey(newUser, issueKey);
+            
             return ResponseEntity.ok("Ожидайте подтверждения регистрации");
         } else {
             return ResponseEntity.badRequest().body("Пользователь не найден");

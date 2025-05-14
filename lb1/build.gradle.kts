@@ -61,6 +61,11 @@ dependencies {
 	implementation("com.atomikos:transactions-jms:6.0.0:jakarta")
 
 	implementation(kotlin("stdlib-jdk8"))
+	
+	// Jira API dependencies
+	implementation("com.atlassian.jira:jira-rest-java-client-core:5.2.0")
+	implementation("com.atlassian.jira:jira-rest-java-client-api:5.2.0")
+	implementation("io.atlassian.fugue:fugue:4.7.2")
 }
 
 

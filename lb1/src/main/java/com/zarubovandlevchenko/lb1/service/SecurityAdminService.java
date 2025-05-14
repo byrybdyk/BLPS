@@ -26,6 +26,8 @@ public class SecurityAdminService {
     private final CardService cardService;
     private final UserRepository userRepository;
     private final TransactionHelper transactionHelper;
+    private final JiraService jiraService;
+
     public String updateRequestStatus(Long requestId, String status) throws Exception {
         if (newUsersStorageService.getRegistrationRequests().containsKey(requestId)) {
             if ("APPROVED".equals(status)) {
@@ -43,7 +45,6 @@ public class SecurityAdminService {
         }
     }
 
-    //ад уже здесь
     public void approveRequest(Long requestId) throws Exception {
         TransactionStatus status = transactionHelper.createTransaction("approveRequest");
         UserRegistration userRegistration = new UserRegistration();
@@ -109,5 +110,30 @@ public class SecurityAdminService {
             newUsersStorageService.removeUsersRegistrationRequestById(requestId);
             System.out.println("Ваша заявка отклонена");
         }
+    }
+
+    public void approveRequestByPhone(String phoneNumber) throws Exception {
+        UserModal user = findUserByPhone(phoneNumber);
+        if (user != null) {
+            Long requestId = (long) user.hashCode();
+            approveRequest(requestId);
+        }
+    }
+
+    public void rejectRequestByPhone(String phoneNumber) {
+        UserModal user = findUserByPhone(phoneNumber);
+        if (user != null) {
+            Long requestId = (long) user.hashCode();
+            rejectRequest(requestId);
+        }
+    }
+
+    private UserModal findUserByPhone(String phoneNumber) {
+        for (UserModal user : newUsersStorageService.getRegistrationRequests().values()) {
+            if (phoneNumber.equals(user.getPhoneNumber())) {
+                return user;
+            }
+        }
+        return null;
     }
 }

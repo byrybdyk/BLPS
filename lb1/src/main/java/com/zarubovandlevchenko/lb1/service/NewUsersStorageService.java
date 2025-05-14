@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class NewUsersStorageService {
     private final Map<UserModal, String> newUsersStorage = new ConcurrentHashMap<>();
     private final Map<Long, UserModal> UsersRegistrationRequests = new ConcurrentHashMap<>();
+    private final Map<String, String> jiraIssueKeys = new ConcurrentHashMap<>(); // phoneNumber -> issueKey
 
     public void addNewUser(UserModal user, String phoneNumber) {
         newUsersStorage.put(user, phoneNumber);
@@ -44,5 +45,17 @@ public class NewUsersStorageService {
     public void restoreUserRegistrationRequest(UserModal user) {
         Long requestId = (long) user.hashCode();
         UsersRegistrationRequests.put(requestId, user);
+    }
+
+    public void addJiraIssueKey(UserModal user, String issueKey) {
+        jiraIssueKeys.put(user.getPhoneNumber(), issueKey);
+    }
+
+    public String getJiraIssueKey(String phoneNumber) {
+        return jiraIssueKeys.get(phoneNumber);
+    }
+
+    public void removeJiraIssueKey(String phoneNumber) {
+        jiraIssueKeys.remove(phoneNumber);
     }
 }
