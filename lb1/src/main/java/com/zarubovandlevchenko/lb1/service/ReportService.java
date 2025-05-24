@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -47,10 +48,16 @@ public class ReportService {
 
 
     private long getRegisteredUserCount() {
-        return 123;
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime endOfDay = today.atTime(23, 59, 59);
+        return userRepository.countUsersBeetween(startOfDay, endOfDay);
     }
 
     private long getIssuedCardCount() {
-        return 456;
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfDay = today.atStartOfDay();
+        LocalDateTime endOfDay = today.atTime(23, 59, 59);
+        return cardRepository.countCardsBeetween(startOfDay, endOfDay);
     }
 }
