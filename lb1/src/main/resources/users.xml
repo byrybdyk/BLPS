@@ -200,4 +200,24 @@
             </phone>
         </credentials>
     </user>
+    <user>
+        <id>8</id>
+        <roles>
+            <role>ROLE_USER</role>
+        </roles>
+        <credentials>
+            <card>
+                <number>1237 2616 7345 7407</number>
+                <otp>12345</otp>
+            </card>
+            <login>
+                <username>USER8</username>
+                <password>USER8</password>
+            </login>
+            <phone>
+                <number>4321 123456</number>
+                <password>USER8</password>
+            </phone>
+        </credentials>
+    </user>
 </users>

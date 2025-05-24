@@ -1,9 +1,10 @@
 package com.zarubovandlevchenko.lb1.service;
 import com.atomikos.jdbc.internal.AtomikosSQLException;
+import com.zarubovandlevchenko.lb1.dto.MailMessage;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.zarubovandlevchenko.lb1.Exception.InvalidStatusException;
+import com.zarubovandlevchenko.lb1.exception.InvalidStatusException;
 import com.zarubovandlevchenko.lb1.exception.UserNotFoundException;
 import com.zarubovandlevchenko.lb1.model.dbcard.Card;
 import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
@@ -26,6 +27,7 @@ public class SecurityAdminService {
     private final CardService cardService;
     private final UserRepository userRepository;
     private final TransactionHelper transactionHelper;
+    private final MailKafkaProducer mailKafkaProducer;
     public String updateRequestStatus(Long requestId, String status) throws Exception {
         if (newUsersStorageService.getRegistrationRequests().containsKey(requestId)) {
             if ("APPROVED".equals(status)) {
@@ -80,6 +82,12 @@ public class SecurityAdminService {
 //            }
             transactionHelper.commit(status);
             System.out.println("Transaction committed successfully");
+            MailMessage message = new MailMessage(
+                    "byrybdyk@gmail.com", // получатель
+                    "Изменён статус заявки", // тема
+                    " Уважаемый "+userModal.getLastName() +" "+ userModal.getFirstName() + ", ваша заявка №" + requestId + " на получение карты была одобрена. Ваша карта ждёт вас по адресу ул. Пушкина, д. Колотушкина." // тело письма
+            );
+            mailKafkaProducer.sendEmailMessage(message);
         } catch (Exception e) {
             System.out.println("Error processing request ID: " + requestId + ". Rolling back transaction: " + e.getMessage());
             transactionHelper.rollback(status);
@@ -106,8 +114,19 @@ public class SecurityAdminService {
 
     public void rejectRequest(Long requestId) {
         if (newUsersStorageService.getRegistrationRequests().containsKey(requestId)) {
-            newUsersStorageService.removeUsersRegistrationRequestById(requestId);
+
             System.out.println("Ваша заявка отклонена");
+
+
+            UserModal userModal = newUsersStorageService.getRegistrationRequests().get(requestId);
+            System.out.println("User saved with ID: " + userModal.getId());
+            MailMessage message = new MailMessage(
+                    "byrybdyk@gmail.com", // получатель
+                    "Изменён статус заявки", // тема
+                    " Уважаемы "+userModal.getLastName() +" "+ userModal.getFirstName() + ", ваша заявка №" + requestId + " на получение карты была отклонена." // тело письма
+            );
+            mailKafkaProducer.sendEmailMessage(message);
+            newUsersStorageService.removeUsersRegistrationRequestById(requestId);
         }
     }
 }

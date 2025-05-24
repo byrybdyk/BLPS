@@ -62,6 +62,9 @@ dependencies {
 	implementation("com.atomikos:transactions-jdbc:6.0.0:jakarta")
 	implementation("com.atomikos:transactions-jms:6.0.0:jakarta")
 
+	implementation("org.springframework.kafka:spring-kafka")
+
+
 	implementation(kotlin("stdlib-jdk8"))
 }
 

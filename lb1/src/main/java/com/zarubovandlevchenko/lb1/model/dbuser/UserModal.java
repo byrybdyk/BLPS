@@ -32,6 +32,8 @@ public class UserModal {
 
     private String lastName;
 
+//    private String email;
+
 
     @Column(unique = true)
     private String passportNumber;
