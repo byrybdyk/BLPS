@@ -1,6 +1,7 @@
 package com.zarubovandlevchenko.lb1.service;
 
 import com.zarubovandlevchenko.lb1.dto.SignUpRequest;
+import com.zarubovandlevchenko.lb1.jira.JiraConnectionImpl;
 import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ public class RegisterService {
     private final UserService userService;
     private final OtpStorageService otpStorageService;
     private final NewUsersStorageService newUsersStorageService;
-
+    private final JiraConnectionImpl jiraConnection;
 
 
     public String getRegisterForm() {
@@ -60,6 +61,12 @@ public class RegisterService {
         if (newUser != null) {
             newUsersStorageService.removeNewUser(newUser);
             newUsersStorageService.addUsersRegistrationRequest(newUser);
+
+            try {
+                jiraConnection.createIssue(newUser);
+            } catch (Exception e) {
+                System.out.println(("Ошибка при создании заявки в JIRA"+ e));
+            }
             return ResponseEntity.ok("Ожидайте подтверждения регистрации");
         } else {
             return ResponseEntity.badRequest().body("Пользователь не найден");
