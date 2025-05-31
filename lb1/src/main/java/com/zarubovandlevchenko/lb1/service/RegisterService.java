@@ -60,10 +60,10 @@ public class RegisterService {
         UserModal newUser = newUsersStorageService.getNewUser(phoneNumber);
         if (newUser != null) {
             newUsersStorageService.removeNewUser(newUser);
-            newUsersStorageService.addUsersRegistrationRequest(newUser);
+            Long requestId = newUsersStorageService.addUsersRegistrationRequest(newUser);
 
             try {
-                jiraConnection.createIssue(newUser);
+                jiraConnection.createIssue(newUser,requestId);
             } catch (Exception e) {
                 System.out.println(("Ошибка при создании заявки в JIRA"+ e));
             }

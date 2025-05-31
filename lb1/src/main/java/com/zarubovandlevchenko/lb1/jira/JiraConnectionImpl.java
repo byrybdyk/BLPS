@@ -25,15 +25,14 @@ public class JiraConnectionImpl implements JiraConnection {
     private final ObjectMapper om = new ObjectMapper();
 
     @Override
-    public void createIssue(UserModal user) throws Exception {
+    public void createIssue(UserModal user, Long requestId) throws Exception {
 
         /* ---------- строим JSON ---------- */
         ObjectNode root   = om.createObjectNode();
         ObjectNode fields = root.putObject("fields");
 
         fields.putObject("project").put("key", projectKey);
-        fields.put("summary", "Заявка на регистрацию пользователя: "
-                + user.getLastName() + " " + user.getFirstName());
+        fields.put("summary", requestId.toString());
 
         // description — Atlassian Document Format
         ObjectNode desc = fields.putObject("description");

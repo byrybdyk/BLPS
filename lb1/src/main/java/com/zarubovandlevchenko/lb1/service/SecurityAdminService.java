@@ -119,7 +119,6 @@ public class SecurityAdminService {
 
 
             UserModal userModal = newUsersStorageService.getRegistrationRequests().get(requestId);
-            System.out.println("User saved with ID: " + userModal.getId());
             MailMessage message = new MailMessage(
                     "byrybdyk@gmail.com", // получатель
                     "Изменён статус заявки", // тема
