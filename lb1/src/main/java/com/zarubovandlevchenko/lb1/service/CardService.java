@@ -173,7 +173,7 @@ public class CardService {
         if (user == null) {
             throw new IllegalArgumentException("User not found");
         }
-        List<Card> cards = cardRepository.findAllByUser(user);
+        List<Card> cards = cardRepository.findAllByUser(user.getId());
         if (cards.isEmpty()) {
             return null;
         }

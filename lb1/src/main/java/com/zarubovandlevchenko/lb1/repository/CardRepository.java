@@ -16,7 +16,7 @@ public interface CardRepository extends JpaRepository<Card, Long> {
     Card findByCardId(Long cardId);
     Card findByCardNumber(String cardNumber);
     //TODO переделать запрос
-    List<Card> findAllByUser(UserModal user);
+    List<Card> findAllByUser(Long id);
     @Query("SELECT count(c) from Card c WHERE c.createdAt BETWEEN :start AND :end")
     long countCardsBeetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }
