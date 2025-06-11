@@ -4,6 +4,7 @@ import com.zarubovandlevchenko.lb1.dto.SignUpRequest;
 import com.zarubovandlevchenko.lb1.jira.JiraConnectionImpl;
 import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
 import lombok.RequiredArgsConstructor;
+import org.camunda.bpm.engine.delegate.BpmnError;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -52,8 +53,11 @@ public class RegisterService {
 
     public ResponseEntity<?> verifyOtp(String phoneNumber, String otp) {
         otpStorageService.getAllOtps();
+        System.out.println("Проверка OTP для номера: " + phoneNumber);
+        System.out.println("OTP: " + otp);
         if (!otpStorageService.getAllOtps().containsKey(phoneNumber) || !otpStorageService.getAllOtps().get(phoneNumber).equals(otp)) {
-            return ResponseEntity.badRequest().body("Неверный OTP");
+            System.out.println("OTP не совпадает или не найден для номера: " + phoneNumber);
+            throw new BpmnError("otpError");
         }
 
         otpStorageService.removeOtp(phoneNumber);

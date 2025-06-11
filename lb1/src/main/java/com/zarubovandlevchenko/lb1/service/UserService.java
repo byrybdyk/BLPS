@@ -86,4 +86,23 @@ public class UserService {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
     }
+
+    public UserModal getUserBylogin(String login) {
+        if (login == null || login.isEmpty()) {
+            throw new IllegalArgumentException("Login cannot be empty");
+        }
+        UserModal user = userRepository.findByLoginOrPhoneNumber(login, login);
+        if (user == null) {
+            throw new UserNotFoundException(1L);
+        }
+        return user;
+    }
+
+    public Boolean validateUser(String name, String passport, String phoneNumber, String lastname) {
+        return(validateUserFirstOrSecondName(name)&&
+                validateUserFirstOrSecondName(lastname)&&
+                validatePhoneNumber(phoneNumber)&&
+                validatePassport(passport)
+        );
+    }
 }
