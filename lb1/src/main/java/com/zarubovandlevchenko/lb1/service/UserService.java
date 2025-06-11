@@ -3,7 +3,7 @@ package com.zarubovandlevchenko.lb1.service;
 import com.zarubovandlevchenko.lb1.dto.SignUpRequest;
 import com.zarubovandlevchenko.lb1.exception.UserNotFoundException;
 import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
-import com.zarubovandlevchenko.lb1.repository.dbuser.UserRepository;
+import com.zarubovandlevchenko.lb1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -85,5 +85,24 @@ public class UserService {
         }
         return userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
+    }
+
+    public UserModal getUserBylogin(String login) {
+        if (login == null || login.isEmpty()) {
+            throw new IllegalArgumentException("Login cannot be empty");
+        }
+        UserModal user = userRepository.findByLoginOrPhoneNumber(login, login);
+        if (user == null) {
+            throw new UserNotFoundException(1L);
+        }
+        return user;
+    }
+
+    public Boolean validateUser(String name, String passport, String phoneNumber, String lastname) {
+        return(validateUserFirstOrSecondName(name)&&
+                validateUserFirstOrSecondName(lastname)&&
+                validatePhoneNumber(phoneNumber)&&
+                validatePassport(passport)
+        );
     }
 }

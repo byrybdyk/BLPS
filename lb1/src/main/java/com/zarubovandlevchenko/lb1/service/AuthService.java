@@ -3,12 +3,13 @@ package com.zarubovandlevchenko.lb1.service;
 import com.zarubovandlevchenko.lb1.dto.SignInRequest;
 import com.zarubovandlevchenko.lb1.model.dbcard.Card;
 import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
-import com.zarubovandlevchenko.lb1.repository.dbuser.UserRepository;
-import com.zarubovandlevchenko.lb1.repository.dbcard.CardRepository;
+import com.zarubovandlevchenko.lb1.repository.UserRepository;
+import com.zarubovandlevchenko.lb1.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -19,12 +20,8 @@ public class AuthService {
     private final OtpStorageService otpStorageService;
 
 
-    public ResponseEntity<?> authenticate(SignInRequest request) {
-        if (request.getCard_number() != null) {
-            return handleCardAuthentication(request.getCard_number());
-        } else {
-            return handlePasswordAuthentication(request.getLogin(), request.getPassword(),request.getPhoneNumber());
-        }
+    public List<?> authenticate(SignInRequest request) {
+        return handlePasswordAuthentication(request.getLogin(), request.getPassword(),request.getPhoneNumber());
     }
 
     private ResponseEntity<?> handleCardAuthentication(String cardNumber) {
@@ -38,15 +35,15 @@ public class AuthService {
         return ResponseEntity.ok("OTP отправлен");
     }
 
-    private ResponseEntity<?> handlePasswordAuthentication(String login, String password,String phoneNumber) {
+    private List<?> handlePasswordAuthentication(String login, String password,String phoneNumber) {
         UserModal user = userRepository.findByLoginOrPhoneNumber(login, phoneNumber);
         if (user == null) {
-            return ResponseEntity.badRequest().body("Неверный логин или пароль");
+            return null;
         }
         if (!user.getPassword().equals(password)) {
-            return ResponseEntity.badRequest().body("Неверный логин или пароль");
+            return null;
         }
-        return ResponseEntity.ok(Map.of("message", "Вход успешный", "user", user.getLogin()));
+        return cardRepository.findAllByUser(user.getId());
     }
 
     public ResponseEntity<?> verifyOtp(String cardNumber, String otp) {

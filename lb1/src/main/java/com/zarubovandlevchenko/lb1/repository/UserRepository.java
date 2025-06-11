@@ -1,4 +1,4 @@
-package com.zarubovandlevchenko.lb1.repository.dbuser;
+package com.zarubovandlevchenko.lb1.repository;
 
 import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
 import org.springframework.data.jpa.repository.JpaRepository;
