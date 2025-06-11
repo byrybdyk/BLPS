@@ -3,19 +3,16 @@ package com.zarubovandlevchenko.lb1.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zarubovandlevchenko.lb1.dto.StatusUpdateRequest;
-import com.zarubovandlevchenko.lb1.model.dbcard.Card;
 import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
-import com.zarubovandlevchenko.lb1.repository.dbcard.CardRepository;
-import com.zarubovandlevchenko.lb1.repository.dbuser.UserRepository;
+import com.zarubovandlevchenko.lb1.repository.CardRepository;
+import com.zarubovandlevchenko.lb1.repository.UserRepository;
 import com.zarubovandlevchenko.lb1.service.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.Map;
 
 @RestController
@@ -28,13 +25,13 @@ public class SecurityAdminController {
 
 
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @PersistenceContext(unitName = "usersDbEntityManagerFactory")
-    private EntityManager entityManager;
-    @Autowired
-    private CardRepository cardRepository;
+//    @Autowired
+//    private UserRepository userRepository;
+//
+//    @PersistenceContext(unitName = "usersDbEntityManagerFactory")
+//    private EntityManager entityManager;
+//    @Autowired
+//    private CardRepository cardRepository;
 
     @GetMapping
     public Map<Long, UserModal> getRequests() {

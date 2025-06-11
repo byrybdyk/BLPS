@@ -1,22 +1,14 @@
 package com.zarubovandlevchenko.lb1.service;
-import com.atomikos.jdbc.internal.AtomikosSQLException;
 import com.zarubovandlevchenko.lb1.dto.MailMessage;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.zarubovandlevchenko.lb1.exception.InvalidStatusException;
-import com.zarubovandlevchenko.lb1.exception.UserNotFoundException;
 import com.zarubovandlevchenko.lb1.model.dbcard.Card;
 import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
-import com.zarubovandlevchenko.lb1.repository.dbuser.UserRepository;
-import jakarta.transaction.Transactional;
+import com.zarubovandlevchenko.lb1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import com.zarubovandlevchenko.lb1.xml.UserRegistration;
 import org.springframework.transaction.TransactionStatus;
 
-import java.sql.SQLException;
 import java.util.Objects;
 
 @Service

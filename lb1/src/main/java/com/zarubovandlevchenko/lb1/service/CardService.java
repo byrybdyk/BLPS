@@ -1,12 +1,11 @@
 package com.zarubovandlevchenko.lb1.service;
 
-import com.atomikos.icatch.TransactionService;
 import com.zarubovandlevchenko.lb1.exception.CardNotFoundException;
 import com.zarubovandlevchenko.lb1.exception.InvalidLimitException;
 import com.zarubovandlevchenko.lb1.exception.InvalidPinException;
 import com.zarubovandlevchenko.lb1.model.dbcard.Card;
 import com.zarubovandlevchenko.lb1.model.dbuser.UserModal;
-import com.zarubovandlevchenko.lb1.repository.dbcard.CardRepository;
+import com.zarubovandlevchenko.lb1.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -64,6 +64,9 @@ dependencies {
 
 	implementation("org.springframework.kafka:spring-kafka")
 
+	implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.20.0")
+	implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:7.20.0")
+
 
 	implementation(kotlin("stdlib-jdk8"))
 }
