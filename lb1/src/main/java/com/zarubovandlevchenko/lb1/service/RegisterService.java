@@ -51,6 +51,32 @@ public class RegisterService {
         return ResponseEntity.ok("OTP отправлен");
     }
 
+    public Boolean verifyOTPS(String phoneNumber, String otp) {
+        otpStorageService.getAllOtps();
+        System.out.println("Проверка OTP для номера: " + phoneNumber);
+        System.out.println("OTP: " + otp);
+        Boolean result = (!otpStorageService.getAllOtps().containsKey(phoneNumber) || !otpStorageService.getAllOtps().get(phoneNumber).equals(otp));
+        if(!result){
+            otpStorageService.removeOtp(phoneNumber);
+        }
+        return result;
+    }
+
+    public void sendTaskToJira(String phoneNumber){
+        UserModal newUser = newUsersStorageService.getNewUser(phoneNumber);
+        if (newUser != null) {
+            newUsersStorageService.removeNewUser(newUser);
+            Long requestId = newUsersStorageService.addUsersRegistrationRequest(newUser);
+
+            try {
+                jiraConnection.createIssue(newUser,requestId);
+            } catch (Exception e) {
+                System.out.println(("Ошибка при создании заявки в JIRA"+ e));
+            }
+        } else {
+        }
+    }
+
     public ResponseEntity<?> verifyOtp(String phoneNumber, String otp) {
         otpStorageService.getAllOtps();
         System.out.println("Проверка OTP для номера: " + phoneNumber);

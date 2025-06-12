@@ -15,13 +15,11 @@ public class verifyOTPDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) {
         System.out.println("Выполняется верификация OTP");
-        try{
-            registerService.verifyOtp(execution.getVariable("phoneNumber").toString(),
-                    execution.getVariable("userOTP").toString());
-        }catch (Exception e){
-            System.out.println("Ошибка верификации OTP: " + e.getMessage());
-            throw new BpmnError("otpError");
-        }
+            if(registerService.verifyOTPS(execution.getVariable("phoneNumber").toString(),
+                    execution.getVariable("userOTP").toString())){
+                System.out.println("Ошибка верификации OTP");
+                throw new BpmnError("otpError");
+            }
 
         System.out.println("Верификация OTP завершена");
     }
